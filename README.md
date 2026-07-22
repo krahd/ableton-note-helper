@@ -7,7 +7,7 @@ A free, interactive reference for learning scales, modes, chords, arpeggios and 
 
 **[Open the live app](https://krahd.github.io/ableton-note-helper/)**
 
-![Ableton Note Helper preview](assets/social-preview.png)
+![Ableton Note Helper preview](assets/social-preview.svg)
 
 ## What it does
 
