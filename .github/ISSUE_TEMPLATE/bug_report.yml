@@ -1,0 +1,45 @@
+name: Bug report
+description: Report incorrect behaviour, geometry or theory data
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for helping improve Ableton Note Helper.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - iPad layout
+        - iPhone layout
+        - Push layout
+        - Scale or mode
+        - Chord or arpeggio
+        - Voicing
+        - Chord analyser
+        - Accessibility or interface
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened?
+      description: Include the selected layout, root, pattern and pads where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should happen?
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and device
+  - type: textarea
+    id: reference
+    attributes:
+      label: Reference
+      description: For a factual correction, include a reliable musical or device reference where possible.
