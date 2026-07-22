@@ -15,7 +15,8 @@ import {
   resolveVoicing,
 } from './music-theory.mjs';
 
-const STORAGE_KEY = 'abeton-note-helper-state-v2';
+const STORAGE_KEY = 'ableton-note-helper-state-v3';
+const LEGACY_STORAGE_KEYS = Object.freeze(['abeton-note-helper-state-v2']);
 const DEFAULT_CHARTS = Object.freeze([
   ['major', 0],
   ['natural-minor', 0],
@@ -52,9 +53,15 @@ const elements = {
 
 function safeLoad() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw);
+    const keys = [STORAGE_KEY, ...LEGACY_STORAGE_KEYS];
+    for (const key of keys) {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      const parsed = JSON.parse(raw);
+      if (key !== STORAGE_KEY) localStorage.removeItem(key);
+      return parsed;
+    }
+    return null;
   } catch {
     return null;
   }
@@ -68,6 +75,7 @@ function saveState() {
       linkRoots: state.linkRoots,
       globalRoot: state.globalRoot,
       layout: state.layout,
+      version: 3,
     }));
   } catch {
     // The app remains fully usable when storage is blocked.
@@ -260,6 +268,7 @@ function renderRecognition() {
   const notes = [...state.selectedMidi].sort((left, right) => left - right);
   const matches = identifyChords(notes, state.spelling);
   elements.selectedNotes.replaceChildren();
+  elements.clearSelection.hidden = notes.length === 0;
 
   for (const midi of notes) {
     const chip = document.createElement('button');
