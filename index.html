@@ -4,15 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="Interactive scales, chords, arpeggios and voicings for Ableton Note and Push pad layouts.">
   <title>Ableton Note Helper</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="site-header">
     <div>
-      <p class="eyebrow">13 × 5 fourths layout</p>
+      <p id="layout-summary" class="eyebrow">iPad · 13 × 5</p>
       <h1>Ableton Note Helper</h1>
-      <p class="lede">Scales, modes, chords, arpeggios and voicings on the Ableton Note / Push-style grid.</p>
+      <p class="lede">Explore scales, modes, chords, arpeggios and exact voicings on Ableton-style pad grids.</p>
     </div>
     <div class="header-actions">
       <button id="add-chart" class="primary" type="button">Add chart</button>
@@ -21,6 +22,9 @@
   </header>
 
   <section class="toolbar" aria-label="Global controls">
+    <label>Layout
+      <select id="layout" aria-label="Pad layout"></select>
+    </label>
     <label>Global root
       <select id="global-root"></select>
     </label>
@@ -35,11 +39,11 @@
   </section>
 
   <section class="legend" aria-label="Colour legend">
-    <span><i class="swatch root"></i> Root</span>
+    <span><i class="swatch root"></i> Root in pattern</span>
     <span><i class="swatch member"></i> Pattern note</span>
     <span><i class="swatch natural"></i> Other natural</span>
     <span><i class="swatch accidental"></i> Other accidental</span>
-    <span><i class="swatch selected"></i> Tapped</span>
+    <span><i class="swatch selected"></i> Tapped note</span>
   </section>
 
   <main>
@@ -47,10 +51,11 @@
       <div>
         <p class="eyebrow">Tapped-note analyser</p>
         <h2 id="recognised-name">Tap pads in any grid</h2>
-        <p id="recognised-detail">Tapped pitch classes are shared across all charts.</p>
+        <p id="recognised-detail">Selected pitches are analysed as a chord, including inversions.</p>
       </div>
-      <div id="tapped-notes" class="note-chips"></div>
+      <div id="tapped-notes" class="note-chips" aria-label="Selected notes"></div>
     </section>
+
     <section id="charts" class="charts" aria-label="Practice charts"></section>
   </main>
 
@@ -62,21 +67,27 @@
           <h2 class="chart-title"></h2>
           <p class="chart-formula"></p>
         </div>
-        <button class="remove-chart icon-button" type="button" aria-label="Remove chart">×</button>
+        <div class="card-actions">
+          <button class="duplicate-chart icon-button" type="button" aria-label="Duplicate chart" title="Duplicate chart">＋</button>
+          <button class="remove-chart icon-button" type="button" aria-label="Remove chart" title="Remove chart">×</button>
+        </div>
       </header>
       <div class="chart-controls">
         <label>Root<select class="chart-root"></select></label>
         <label>Pattern<select class="chart-pattern"></select></label>
       </div>
+      <p class="voicing-warning" hidden></p>
       <div class="grid-wrap">
-        <div class="pad-grid" role="grid" aria-label="13 columns by 5 rows"></div>
+        <div class="pad-grid" role="grid"></div>
       </div>
     </article>
   </template>
 
   <footer>
-    <p>Bottom-left is C. Each pad to the right rises one semitone; each row upwards rises a perfect fourth (five semitones).</p>
+    <p id="layout-description">13 × 5 chromatic fourths layout. Right is one semitone; up is a perfect fourth.</p>
+    <p class="credits">Created by <a href="https://laurenzo.net" rel="author">Tomás Laurenzo</a>.</p>
   </footer>
-  <script src="app.js"></script>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
