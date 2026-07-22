@@ -31,4 +31,4 @@ Free interactive Ableton Note and Push grid helper for scales, chords and voicin
 
 ## Included visual asset
 
-`assets/social-preview.png` is a 1280 × 640 launch card ready for GitHub’s **Settings → General → Social preview** field. The editable SVG source is included beside it.
+`assets/social-preview.svg` is a 1280 × 640 launch card and editable source. GitHub’s repository social-preview setting requires a raster image, so export this SVG to PNG before uploading it under **Settings → General → Social preview**.
