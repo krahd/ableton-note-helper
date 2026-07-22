@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0d10">
+  <title>Ableton Note Helper</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">13 × 5 fourths layout</p>
+      <h1>Ableton Note Helper</h1>
+      <p class="lede">Scales, modes, chords, arpeggios and voicings on the Ableton Note / Push-style grid.</p>
+    </div>
+    <div class="header-actions">
+      <button id="add-chart" class="primary" type="button">Add chart</button>
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </header>
+
+  <section class="toolbar" aria-label="Global controls">
+    <label>Global root
+      <select id="global-root"></select>
+    </label>
+    <label>Accidental spelling
+      <select id="spelling">
+        <option value="sharp">Sharps</option>
+        <option value="flat">Flats</option>
+      </select>
+    </label>
+    <label class="toggle"><input id="link-roots" type="checkbox" checked> Link chart roots</label>
+    <button id="clear-taps" type="button">Clear tapped notes</button>
+  </section>
+
+  <section class="legend" aria-label="Colour legend">
+    <span><i class="swatch root"></i> Root</span>
+    <span><i class="swatch member"></i> Pattern note</span>
+    <span><i class="swatch natural"></i> Other natural</span>
+    <span><i class="swatch accidental"></i> Other accidental</span>
+    <span><i class="swatch selected"></i> Tapped</span>
+  </section>
+
+  <main>
+    <section id="recogniser" class="recogniser" aria-live="polite">
+      <div>
+        <p class="eyebrow">Tapped-note analyser</p>
+        <h2 id="recognised-name">Tap pads in any grid</h2>
+        <p id="recognised-detail">Tapped pitch classes are shared across all charts.</p>
+      </div>
+      <div id="tapped-notes" class="note-chips"></div>
+    </section>
+    <section id="charts" class="charts" aria-label="Practice charts"></section>
+  </main>
+
+  <template id="chart-template">
+    <article class="chart-card">
+      <header class="chart-head">
+        <div>
+          <p class="chart-family"></p>
+          <h2 class="chart-title"></h2>
+          <p class="chart-formula"></p>
+        </div>
+        <button class="remove-chart icon-button" type="button" aria-label="Remove chart">×</button>
+      </header>
+      <div class="chart-controls">
+        <label>Root<select class="chart-root"></select></label>
+        <label>Pattern<select class="chart-pattern"></select></label>
+      </div>
+      <div class="grid-wrap">
+        <div class="pad-grid" role="grid" aria-label="13 columns by 5 rows"></div>
+      </div>
+    </article>
+  </template>
+
+  <footer>
+    <p>Bottom-left is C. Each pad to the right rises one semitone; each row upwards rises a perfect fourth (five semitones).</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
