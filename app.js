@@ -142,6 +142,8 @@ function configureGridStyle(grid, layout) {
   grid.style.setProperty('--columns', String(layout.columns));
   grid.style.setProperty('--grid-min-width', `${layout.gridMinWidth}px`);
   grid.setAttribute('aria-label', `${layout.columns} columns by ${layout.rows} rows`);
+  grid.setAttribute('aria-colcount', String(layout.columns));
+  grid.setAttribute('aria-rowcount', String(layout.rows));
   grid.dataset.layout = layout.id;
 }
 
@@ -161,6 +163,8 @@ function createPad(cell, chart, entry, voicing, pitchClasses) {
   button.dataset.midi = String(cell.midi);
   button.dataset.position = cell.key;
   button.setAttribute('role', 'gridcell');
+  button.setAttribute('aria-rowindex', String(cell.visualRow + 1));
+  button.setAttribute('aria-colindex', String(cell.column + 1));
   button.setAttribute('aria-pressed', String(isSelected));
   button.setAttribute(
     'aria-label',
@@ -244,6 +248,12 @@ function renderCharts() {
   }
 
   elements.charts.appendChild(fragment);
+  if (!state.charts.length) {
+    const empty = document.createElement('p');
+    empty.className = 'empty-state';
+    empty.textContent = 'No charts. Use Add chart to create one.';
+    elements.charts.appendChild(empty);
+  }
 }
 
 function renderRecognition() {
@@ -330,11 +340,13 @@ function restore() {
   state.nextId = 1;
   state.charts = [];
 
-  const charts = Array.isArray(stored.charts) && stored.charts.length ? stored.charts : DEFAULT_CHARTS;
+  const charts = Array.isArray(stored.charts) ? stored.charts : DEFAULT_CHARTS;
   for (const chart of charts) {
-    const patternId = Array.isArray(chart) ? chart[0] : chart.pattern;
-    const root = Array.isArray(chart) ? chart[1] : chart.root;
-    addChart(patternId, root, { render: false });
+    if (Array.isArray(chart)) {
+      addChart(chart[0], chart[1], { render: false });
+    } else if (chart && typeof chart === 'object') {
+      addChart(chart.pattern, chart.root, { render: false });
+    }
   }
   renderAll();
 }
