@@ -131,4 +131,107 @@ const pushRootless = resolveVoicing('push', 0, [4, 10, 14, 21]);
 assert.equal(pushRootless.complete, true);
 assert.equal(pushRootless.positions.length, 4);
 
+// Recognition must work for every dictionary chord, every transposition and every chord-tone bass.
+for (let root = 0; root < 12; root += 1) {
+  for (const entry of CHORD_DICTIONARY) {
+    const rootLabel = noteName(root);
+    for (const bassInterval of entry.intervals) {
+      const bassPitchClass = (root + bassInterval) % 12;
+      const bassMidi = 48 + bassPitchClass;
+      const notes = entry.intervals.map((interval) => {
+        const pitchClassValue = (root + interval) % 12;
+        let midi = 48 + pitchClassValue;
+        while (midi < bassMidi || (midi === bassMidi && pitchClassValue !== bassPitchClass)) midi += 12;
+        return midi;
+      });
+      const bassIndex = entry.intervals.indexOf(bassInterval);
+      notes[bassIndex] = bassMidi;
+      const expected = `${rootLabel}${entry.suffix}${bassPitchClass === root ? '' : `/${noteName(bassPitchClass)}`}`;
+      assert.ok(
+        identifyChords(notes).some((match) => match.name === expected),
+        `Must recognise ${expected} from ${notes.join(', ')}`,
+      );
+    }
+  }
+}
+
+assert.deepEqual(identifyChords([]), []);
+assert.deepEqual(identifyChords([60]), []);
+assert.deepEqual(identifyChords([60, Number.NaN]), []);
+assert.ok(identifyChords([48, 52, 55, 60]).some((match) => match.name === 'C'));
+
+// Every displayed formula must describe the stored intervals exactly.
+const DEGREE_BASE = new Map([
+  [1, 0], [2, 2], [3, 4], [4, 5], [5, 7], [6, 9], [7, 11],
+  [9, 14], [11, 17], [13, 21],
+]);
+
+function formulaTokens(formula) {
+  return formula.split(/[\s–]+/u).filter(Boolean);
+}
+
+function tokenInterval(token) {
+  const degreeMatch = token.match(/(\d+)$/u);
+  assert.ok(degreeMatch, `Formula token must contain a degree: ${token}`);
+  const degree = Number(degreeMatch[1]);
+  assert.ok(DEGREE_BASE.has(degree), `Unsupported degree in formula: ${token}`);
+  let accidental = 0;
+  for (const symbol of token.slice(0, -degreeMatch[1].length)) {
+    if (symbol === '♭') accidental -= 1;
+    else if (symbol === '♯') accidental += 1;
+    else if (symbol === '𝄫') accidental -= 2;
+    else if (symbol === '♮') accidental += 0;
+    else assert.fail(`Unsupported accidental in formula token: ${token}`);
+  }
+  return DEGREE_BASE.get(degree) + accidental;
+}
+
+function formulaIntervals(entry) {
+  const raw = formulaTokens(entry.formula).map(tokenInterval);
+  if (!entry.voicing) return raw.map((interval) => ((interval % 12) + 12) % 12);
+  const ascending = [];
+  for (const rawInterval of raw) {
+    let interval = rawInterval;
+    while (ascending.length && interval <= ascending.at(-1)) interval += 12;
+    ascending.push(interval);
+  }
+  return ascending;
+}
+
+for (const entry of PATTERNS) {
+  assert.deepEqual(
+    formulaIntervals(entry),
+    [...entry.intervals],
+    `${entry.name} formula must match its stored intervals`,
+  );
+}
+
+// Static-page smoke checks catch broken wiring without introducing browser dependencies.
+const { readFileSync, existsSync } = await import('node:fs');
+const html = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
+const appSource = readFileSync(new URL('./app.js', import.meta.url), 'utf8');
+
+for (const requiredId of [
+  'layout', 'global-root', 'spelling', 'link-roots', 'clear-taps',
+  'recognised-name', 'recognised-detail', 'tapped-notes', 'charts', 'chart-template',
+]) {
+  assert.match(html, new RegExp(`id=["']${requiredId}["']`), `index.html must contain #${requiredId}`);
+}
+assert.doesNotMatch(
+  html.match(/<section class="toolbar"[\s\S]*?<\/section>/u)?.[0] ?? '',
+  /id="clear-taps"/u,
+  'Clear-all control belongs in the tapped-note analyser, not the global toolbar',
+);
+assert.match(
+  html.match(/<section id="recogniser"[\s\S]*?<\/section>/u)?.[0] ?? '',
+  /id="clear-taps"/u,
+  'Clear-all control must be adjacent to selected notes in the analyser',
+);
+assert.match(appSource, /elements\.clearSelection\.hidden = notes\.length === 0/u);
+assert.ok(existsSync(new URL('./assets/favicon.svg', import.meta.url)));
+assert.ok(existsSync(new URL('./assets/social-preview.svg', import.meta.url)));
+assert.ok(existsSync(new URL('./assets/social-preview.png', import.meta.url)));
+assert.ok(existsSync(new URL('./enhancements.css', import.meta.url)));
+assert.match(html, /Not affiliated with or endorsed by Ableton/u);
+
 console.log(`All Ableton Note Helper tests passed (${PATTERNS.length} patterns, 3 layouts).`);
