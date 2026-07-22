@@ -1,0 +1,13 @@
+{
+  "name": "ableton-note-helper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check app.js && node --check music-theory.mjs",
+    "test": "npm run check && node tests.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
