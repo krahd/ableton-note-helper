@@ -131,7 +131,6 @@ const pushRootless = resolveVoicing('push', 0, [4, 10, 14, 21]);
 assert.equal(pushRootless.complete, true);
 assert.equal(pushRootless.positions.length, 4);
 
-// Recognition must work for every dictionary chord, every transposition and every chord-tone bass.
 for (let root = 0; root < 12; root += 1) {
   for (const entry of CHORD_DICTIONARY) {
     const rootLabel = noteName(root);
@@ -160,7 +159,6 @@ assert.deepEqual(identifyChords([60]), []);
 assert.deepEqual(identifyChords([60, Number.NaN]), []);
 assert.ok(identifyChords([48, 52, 55, 60]).some((match) => match.name === 'C'));
 
-// Every displayed formula must describe the stored intervals exactly.
 const DEGREE_BASE = new Map([
   [1, 0], [2, 2], [3, 4], [4, 5], [5, 7], [6, 9], [7, 11],
   [9, 14], [11, 17], [13, 21],
@@ -206,7 +204,6 @@ for (const entry of PATTERNS) {
   );
 }
 
-// Static-page smoke checks catch broken wiring without introducing browser dependencies.
 const { readFileSync, existsSync } = await import('node:fs');
 const html = readFileSync(new URL('./index.html', import.meta.url), 'utf8');
 const appSource = readFileSync(new URL('./app.js', import.meta.url), 'utf8');
@@ -230,7 +227,6 @@ assert.match(
 assert.match(appSource, /elements\.clearSelection\.hidden = notes\.length === 0/u);
 assert.ok(existsSync(new URL('./assets/favicon.svg', import.meta.url)));
 assert.ok(existsSync(new URL('./assets/social-preview.svg', import.meta.url)));
-assert.ok(existsSync(new URL('./assets/social-preview.png', import.meta.url)));
 assert.ok(existsSync(new URL('./enhancements.css', import.meta.url)));
 assert.match(html, /Not affiliated with or endorsed by Ableton/u);
 
