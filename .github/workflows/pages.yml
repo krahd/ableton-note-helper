@@ -17,17 +17,14 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Check JavaScript syntax
-        run: |
-          node --check app.js
-          node --check music-theory.mjs
-      - name: Run deterministic tests
-        run: node tests.mjs
+      - name: Run syntax and deterministic tests
+        run: npm test
 
   deploy:
     needs: test
@@ -35,12 +32,18 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Stage the static site
+        run: |
+          mkdir _site
+          cp index.html styles.css enhancements.css app.js music-theory.mjs _site/
+          cp -R assets _site/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
