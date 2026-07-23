@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check app.js && node --check music-theory.mjs",
-    "test": "npm run check && node tests.mjs"
+    "check": "node --check app.js && node --check music-theory.mjs && node --check discoverability-tests.mjs",
+    "test": "npm run check && node tests.mjs && node discoverability-tests.mjs"
   },
   "engines": {
     "node": ">=20"
