@@ -19,7 +19,7 @@ window.HTCU_DATA = {
     {
       id:'charles-biggers', side:'cu', date:'1961-07-03', year:1961.50,
       title:'Charles Biggers returns to CU', kicker:'Norlin Library · July 3, 1961', archetype:'newspaper', importance:3,
-      summary:'CU student Charles Biggers, Boulder’s first Freedom Rider, speaks in front of Norlin Library after participating in the rides and spending more than two months in custody.',
+      summary:'CU student Charles Biggers, identified by CU Boulder as Boulder’s first Freedom Rider, speaks in front of Norlin Library after participating in the rides and being jailed in Jackson, Mississippi.',
       detail:'CU Boulder’s 150th student-life history identifies Charles Biggers as Boulder’s first Freedom Rider. After training with CORE and joining a ride, he was arrested in Jackson, Mississippi, after refusing to leave a whites-only waiting room. The CU history reproduces a Colorado Daily item dated July 3, 1961 and describes his speech at Norlin Library.',
       relation:'Direct participation in the wider event', relationNote:'This is not merely a parallel CU event. A CU student directly entered the national Freedom Rider history and then brought that experience back to campus.',
       relatedId:'freedom-rides', relatedLabel:'In wider history: the Freedom Rides',
@@ -57,27 +57,27 @@ window.HTCU_DATA = {
       sourceName:'NASA — Apollo 11 Mission Overview', sourceUrl:'https://www.nasa.gov/history/apollo-11-mission-overview/'
     },
     {
-      id:'umas-founded', side:'cu', date:'1969-09-01', year:1969.67,
-      title:'UMAS is established', kicker:'CU Boulder · 1969', archetype:'cluster', importance:2,
-      summary:'United Mexican American Students forms to recruit and retain Latino and Chicano students and push for institutional change.',
-      detail:'CU’s 150th student-life history describes UMAS as a central organisation in Chicano activism on campus, focused on educational support, recruitment, retention, institutional reform and later protests over cuts to Chicano programmes and funding.',
+      id:'umas-founded', side:'cu', date:'1969-01-01', displayDate:'1968–1969', year:1969.00,
+      title:'UMAS emerges at CU', kicker:'CU Boulder · 1968–69', archetype:'cluster', importance:2,
+      summary:'United Mexican American Students emerges at CU as an organisation for recruitment, retention, educational support and institutional change.',
+      detail:'CU sources differ on the date used for UMAS’s founding: the CU Chicanx/Latinx History Collection documents its founding in 1968, while CU’s 150th student-life history says it was established in 1969. Both describe its early work around recruitment, retention, educational support and institutional change.',
       relation:'Contemporaneous campus organising', relationNote:'UMAS is part of the same historical field of civil-rights struggle and institutional transformation. The timeline does not force it into a causal relation with a single national event.',
       relatedId:'stonewall', relatedLabel:'In wider history: another 1969 liberation movement',
       tags:['Chicano movement','student activism','education'],
-      sourceName:'CU Boulder 150 — Student Life Through the Decades', sourceUrl:'https://www.colorado.edu/150/cu-boulder-student-life-through-decades'
+      sourceName:'CU Chicanx/Latinx History Collection', sourceUrl:'https://cudl.colorado.edu/luna/servlet/CUB~24~24'
     },
     {
-      id:'black-studies', side:'cu', date:'1969-10-01', year:1969.75,
-      title:'Black Studies takes institutional form', kicker:'CU Boulder · late 1960s', archetype:'catalogue', importance:1,
-      summary:'Charles Nilon launches and chairs CU’s Black Studies Program during a period of intense Black student organising and institutional pressure.',
-      detail:'CU’s 150th historical biographies identify Charles Nilon, the first Black faculty member hired in the English Department, as the founder and chair of the university’s Black Studies Program in the late 1960s.',
+      id:'black-studies', side:'cu', date:'1969-01-01', displayDate:'1969', year:1969.10,
+      title:'Black Studies takes institutional form', kicker:'CU Boulder · 1969', archetype:'catalogue', importance:1,
+      summary:'Charles Nilon helps establish and chairs CU’s Black Studies Program during a period of intense Black student organising and institutional pressure.',
+      detail:'CU Boulder’s Center for African & African American Studies identifies Charles Nilon, the university’s first Black professor, as playing a foundational role in establishing the Black Studies program in 1969.',
       relation:'Institutional change during the same historical period', relationNote:'At close scale, institutional changes such as curriculum become visible alongside protests, public events and wider political history.',
       relatedId:'hayakawa', relatedLabel:'At CU: the Macky confrontation months earlier',
       tags:['Black Studies','curriculum','civil rights'],
-      sourceName:'CU Boulder 150 — An Initial List of Notable Buffs', sourceUrl:'https://www.colorado.edu/150/initial-list-notable-buffs'
+      sourceName:'CU Boulder CAAAS — Black Studies at CU Boulder and Beyond', sourceUrl:'https://www.colorado.edu/center/caaas/podcast/episodes/episode-32-black-studies-cu-boulder-and-beyond-honoring-dr-charles-nilon-and-mrs'
     },
     {
-      id:'bgl', side:'cu', date:'1970-11-01', year:1970.84,
+      id:'bgl', side:'cu', date:'1970-11-01', displayDate:'November 1970', year:1970.84,
       title:'Boulder Gay Liberation forms', kicker:'Boulder / CU · 1970–71', archetype:'pamphlet', importance:3,
       summary:'Boulder Gay Liberation begins meeting in 1970; by 1971 it receives CU student-government funding and has an office in the UMC.',
       detail:'CU’s 150th student-life history explicitly connects the national movement catalysed by Stonewall to the formation of Boulder Gay Liberation. Its UMC office served as a drop-in centre and housed a major collection of gay publications while the group organised political and social activities.',
@@ -87,10 +87,10 @@ window.HTCU_DATA = {
       sourceName:'CU Boulder 150 — Student Life Through the Decades', sourceUrl:'https://www.colorado.edu/150/cu-boulder-student-life-through-decades'
     },
     {
-      id:'los-seis', side:'cu', date:'1974-05-27', year:1974.40,
+      id:'los-seis', side:'cu', date:'1974-05-27', displayDate:'May 27–29, 1974', year:1974.40,
       title:'Los Seis de Boulder', kicker:'Boulder · May 1974', archetype:'memorial', importance:3,
-      summary:'Six Chicano activists — including a CU student, alumni and former staff — die in two car bombings connected to El Movimiento.',
-      detail:'CU Libraries describes Los Seis as part of CU Boulder’s rich and complex history and identifies primary sources in Rare and Distinctive Collections, including law-enforcement reports, El Diario de la Gente, and records of United Mexican American Students from 1968–1974.',
+      summary:'Six activists involved in El Movimiento die in two Boulder car bombings; five had CU affiliations as students, alumni or former employees.',
+      detail:'CU Libraries identifies five of the six victims as self-identified Chicano/a and all six as involved in El Movimiento. The circumstances of how the bombs came to be in the cars remain unknown. Rare and Distinctive Collections holds primary sources including law-enforcement reports, El Diario de la Gente, and UMAS records from 1968–1974.',
       relation:'Contemporaneous CU/Boulder political struggle; not causally linked to Watergate', relationNote:'This pairing is intentionally non-causal. Los Seis and Watergate occupy the same national year while belonging to different political histories. The interface makes that simultaneity visible without manufacturing a connection.',
       relatedId:'nixon-resigns', relatedLabel:'In wider history: Nixon resigns months later',
       tags:['Chicano movement','Los Seis','archives'],

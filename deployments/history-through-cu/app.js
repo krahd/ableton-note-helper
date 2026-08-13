@@ -70,7 +70,7 @@
       case 'poster': return `<span class="poster-fragment"><small>MACKY</small><strong>HAYAKAWA</strong><span>03 · 03 · 69</span></span>`;
       case 'signal': return `<span class="signal-object"><span class="signal-ring"></span><strong>STONEWALL</strong><span>28 JUN 1969</span></span>`;
       case 'moon': return `<span class="moon-object"><span class="moon-sphere"></span><span class="moon-orbit"></span><strong>APOLLO 11</strong></span>`;
-      case 'cluster': return `<span class="cluster-object"><span>UMAS</span><span>education</span><span>organising</span><strong>1969</strong></span>`;
+      case 'cluster': return `<span class="cluster-object"><span>UMAS</span><span>education</span><span>organising</span><strong>1968–69</strong></span>`;
       case 'catalogue': return `<span class="catalogue-object"><small>CURRICULUM</small><strong>BLACK<br>STUDIES</strong><span>late 1960s</span></span>`;
       case 'pamphlet': return `<span class="pamphlet-object"><small>BOULDER</small><strong>GAY<br>LIBERATION</strong><span>1970–71</span></span>`;
       case 'memorial': return `<span class="memorial-object"><span class="six-dots">${'<i></i>'.repeat(6)}</span><strong>LOS SEIS</strong><span>MAY 1974</span></span>`;
@@ -209,7 +209,7 @@
     return `<article class="story-article side-${item.side}">
       <div class="story-hero" data-story-hero>${visualForStory(item)}</div>
       <div class="story-copy">
-        <p class="story-context">${item.side==='cu'?'At CU / Boulder':'Wider history'} · ${dateLabel(item.date)}</p>
+        <p class="story-context">${item.side==='cu'?'At CU / Boulder':'Wider history'} · ${item.displayDate || dateLabel(item.date)}</p>
         <h1>${item.title}</h1>
         <p class="story-deck">${item.summary}</p>
         <div class="story-narrative"><p>${item.detail}</p></div>
