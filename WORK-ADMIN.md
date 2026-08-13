@@ -6,6 +6,18 @@ This repository remains canonical for **Ableton Note Helper** source, tests, doc
 
 Any manuscript or publication artefact belongs canonically in `krahd/academic-writing`; submission-specific professional or artistic packages belong in `krahd/professional-opportunities`; grant, funding, and compute application packages belong in `krahd/grant-applications`.
 
+## Temporary cross-project deployment mirror
+
+`deployments/history-through-cu/` is an explicit temporary exception to this repository's normal project boundary. It is **not Ableton Note Helper source** and must not be treated as canonical for that project.
+
+It exists solely so the already configured public GitHub Pages deployment can expose the **History Through CU** CU150 prototype while the new private `krahd/history-through-cu` repository awaits its own Pages activation.
+
+Canonical History Through CU source remains:
+
+`krahd/history-through-cu/site/`
+
+The deployed mirror should be removed after `krahd/history-through-cu` has a verified direct public Pages deployment.
+
 ## Mandatory synchronisation rule
 
 `krahd/tom-work-admin` **must be kept current** whenever work here materially changes the project's administratively meaningful state. Updating the administration repository is part of completing the change, not optional later cleanup.
@@ -21,6 +33,8 @@ Update this repository first for substantive project changes, then update `krahd
 ## Ownership boundary
 
 Keep source, tests, documentation, deployment configuration, and project-specific evidence here. `tom-work-admin` stores only the concise cross-repository view and must point back to canonical project sources rather than duplicate them.
+
+The temporary History Through CU directory remains a generated deployment artefact whose substantive source is owned elsewhere.
 
 ## Completion check
 
