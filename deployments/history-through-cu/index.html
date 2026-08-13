@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f2eee6" />
+  <meta name="description" content="History Through CU — an interactive prototype placing world and U.S. history in the same historical field as what was happening at CU Boulder." />
+  <title>History Through CU</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="brand-block">
+      <a class="brand" href="#" aria-label="History Through CU home">History Through CU</a>
+      <p class="descriptor">World and U.S. history, read in the same historical field as what was happening at CU Boulder.</p>
+    </div>
+    <div class="header-actions">
+      <button class="text-button" id="aboutButton" type="button">About</button>
+      <button class="text-button" id="sourcesButton" type="button">Sources</button>
+    </div>
+  </header>
+  <main>
+    <section class="intro" id="intro" aria-labelledby="introTitle">
+      <p class="eyebrow">Prototype · CU Boulder 150th Initiative Fund</p>
+      <h1 id="introTitle">History does not stop at the edge of campus.</h1>
+      <p class="intro-copy">Scroll through time. Historical events emerge to the left; what was happening at CU emerges to the right. Their proximity means shared historical time — not necessarily cause.</p>
+      <button id="enterTimeline" class="enter-button" type="button"><span>Enter the timeline</span><span aria-hidden="true">↓</span></button>
+    </section>
+    <section class="timeline-shell" id="timelineSection" aria-label="Interactive historical timeline">
+      <div class="timeline-topbar" aria-hidden="true"><span>History</span><span>At CU</span></div>
+      <div class="timeline-controls" aria-label="Timeline controls">
+        <div class="zoom-control" role="group" aria-label="Timeline scale">
+          <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
+          <div class="zoom-status"><span class="control-label">Scale</span><strong id="zoomLabel">Medium</strong></div>
+          <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
+        </div>
+        <button id="jump1969" class="jump-button" type="button">Go to 1969</button>
+      </div>
+      <div class="you-are-here" aria-live="polite"><span class="yah-label">You are here</span><strong id="currentYear">1969</strong><span id="currentSpan">± 2 years</span></div>
+      <div class="timeline-viewport" id="timelineViewport">
+        <div class="timeline-canvas" id="timelineCanvas">
+          <div class="timeline-spine" aria-hidden="true"></div>
+          <div class="year-layer" id="yearLayer" aria-hidden="true"></div>
+          <div class="item-layer" id="itemLayer"></div>
+        </div>
+      </div>
+      <aside class="minimap" id="minimap" aria-label="Timeline overview"><div class="minimap-track" id="minimapTrack"></div><div class="minimap-window" id="minimapWindow" aria-hidden="true"></div></aside>
+    </section>
+  </main>
+  <dialog id="detailDialog" class="detail-dialog"><div class="detail-wrap"><button id="closeDetail" class="detail-close" type="button" aria-label="Close detail">×</button><div id="detailContent"></div></div></dialog>
+  <dialog id="aboutDialog" class="info-dialog"><div class="info-wrap"><button class="detail-close" data-close-dialog="aboutDialog" type="button" aria-label="Close about">×</button><p class="eyebrow">About the prototype</p><h2>One historical field, not two parallel stories.</h2><p>This prototype tests a central proposition: the history of the world and the history of CU are not separate histories. The interface places wider historical events and contemporaneous CU activity around the same temporal spine.</p><p>Juxtaposition does not imply causality. Some CU materials directly respond to a wider event; others simply show what the institution and its communities were doing at the same time.</p><p>Visible historical claims are linked to verified public sources. The funded project would expand the corpus, primary-source integration, accessibility, archival partnerships and historical coverage.</p></div></dialog>
+  <dialog id="sourcesDialog" class="info-dialog"><div class="info-wrap source-list-wrap"><button class="detail-close" data-close-dialog="sourcesDialog" type="button" aria-label="Close sources">×</button><p class="eyebrow">Prototype sources</p><h2>Every visible claim remains attributable.</h2><div id="sourceList" class="source-list"></div></div></dialog>
+  <template id="timelineItemTemplate"><button class="timeline-item" type="button"><span class="connector" aria-hidden="true"></span><span class="object"></span></button></template>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
