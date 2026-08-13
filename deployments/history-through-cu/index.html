@@ -3,56 +3,107 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#f2eee6" />
-  <meta name="description" content="History Through CU — an interactive prototype placing world and U.S. history in the same historical field as what was happening at CU Boulder." />
+  <meta name="theme-color" content="#eee9df" />
+  <meta name="description" content="History Through CU — a scroll-responsive prototype placing wider history and what was happening at CU Boulder in one historical field." />
   <title>History Through CU</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="grain" aria-hidden="true"></div>
-  <header class="site-header">
-    <div class="brand-block">
-      <a class="brand" href="#" aria-label="History Through CU home">History Through CU</a>
-      <p class="descriptor">World and U.S. history, read in the same historical field as what was happening at CU Boulder.</p>
-    </div>
-    <div class="header-actions">
-      <button class="text-button" id="aboutButton" type="button">About</button>
-      <button class="text-button" id="sourcesButton" type="button">Sources</button>
-    </div>
-  </header>
-  <main>
-    <section class="intro" id="intro" aria-labelledby="introTitle">
-      <p class="eyebrow">Prototype · CU Boulder 150th Initiative Fund</p>
-      <h1 id="introTitle">The world’s history and CU’s history are one history.</h1>
-      <p class="intro-copy">Scroll through time. Historical events emerge to the left; what was happening at CU emerges to the right. Their proximity means shared historical time — not necessarily cause.</p>
-      <button id="enterTimeline" class="enter-button" type="button"><span>Enter the timeline</span><span aria-hidden="true">↓</span></button>
-    </section>
-    <section class="timeline-shell" id="timelineSection" aria-label="Interactive historical timeline">
-      <div class="timeline-topbar" aria-hidden="true"><span>History</span><span>At CU</span></div>
-      <div class="timeline-controls" aria-label="Timeline controls">
-        <div class="zoom-control" role="group" aria-label="Timeline scale">
-          <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
-          <div class="zoom-status"><span class="control-label">Scale</span><strong id="zoomLabel">Medium</strong></div>
-          <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
-        </div>
-        <button id="jump1969" class="jump-button" type="button">Go to 1969</button>
+  <div class="app-shell" id="appShell">
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="app-bar">
+      <div class="app-brand">
+        <strong>History Through CU</strong>
+        <span class="app-range">1961—1974 · prototype</span>
       </div>
-      <div class="you-are-here" aria-live="polite"><span class="yah-label">You are here</span><strong id="currentYear">1969</strong><span id="currentSpan">± 2 years</span></div>
-      <div class="timeline-viewport" id="timelineViewport">
+      <div class="app-status" aria-live="polite">
+        <span id="topYear">1969</span>
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="topScale">Medium</span>
+      </div>
+      <nav class="app-actions" aria-label="Project information">
+        <button class="chrome-button" id="aboutButton" type="button">About</button>
+        <button class="chrome-button" id="sourcesButton" type="button">Sources</button>
+      </nav>
+    </header>
+
+    <main class="timeline-app" aria-label="Interactive historical timeline">
+      <div class="timeline-scroll" id="timelineScroll" tabindex="0" aria-label="Scroll through the timeline">
         <div class="timeline-canvas" id="timelineCanvas">
           <div class="timeline-spine" aria-hidden="true"></div>
           <div class="year-layer" id="yearLayer" aria-hidden="true"></div>
           <div class="item-layer" id="itemLayer"></div>
         </div>
       </div>
-      <aside class="minimap" id="minimap" aria-label="Timeline overview"><div class="minimap-track" id="minimapTrack"></div><div class="minimap-window" id="minimapWindow" aria-hidden="true"></div></aside>
+
+      <section class="orientation-note" id="orientationNote" aria-live="polite">
+        <span class="orientation-title">One history</span>
+        <span>Scroll through time. Drag <em>You are here</em> to travel.</span>
+      </section>
+
+      <div class="zoom-dock" role="group" aria-label="Timeline scale">
+        <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
+        <div class="zoom-readout">
+          <span>Scale</span>
+          <strong id="zoomLabel">Medium</strong>
+        </div>
+        <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
+      </div>
+
+      <aside class="scrubber" aria-label="You are here timeline navigator">
+        <div class="scrubber-copy">
+          <span>You are here</span>
+          <strong id="scrubberYear">1969</strong>
+        </div>
+        <div class="scrubber-track" id="scrubberTrack" role="slider" tabindex="0"
+             aria-label="Timeline position" aria-valuemin="1960" aria-valuemax="1975" aria-valuenow="1969">
+          <div class="scrubber-line" aria-hidden="true"></div>
+          <div class="scrubber-progress" id="scrubberProgress" aria-hidden="true"></div>
+          <div class="scrubber-anchors" id="scrubberAnchors"></div>
+          <div class="scrubber-thumb" id="scrubberThumb" aria-hidden="true"><span></span></div>
+        </div>
+        <div class="scrubber-endpoints" aria-hidden="true"><span>1960</span><span>1975</span></div>
+      </aside>
+    </main>
+
+    <section class="story-view" id="storyView" aria-hidden="true" aria-label="Historical detail">
+      <div class="story-surface" id="storySurface">
+        <button class="story-close" id="closeStory" type="button" aria-label="Back to timeline">
+          <span aria-hidden="true">←</span><span>Timeline</span>
+        </button>
+        <div class="story-content" id="storyContent"></div>
+      </div>
     </section>
-  </main>
-  <dialog id="detailDialog" class="detail-dialog"><div class="detail-wrap"><button id="closeDetail" class="detail-close" type="button" aria-label="Close detail">×</button><div id="detailContent"></div></div></dialog>
-  <dialog id="aboutDialog" class="info-dialog"><div class="info-wrap"><button class="detail-close" data-close-dialog="aboutDialog" type="button" aria-label="Close about">×</button><p class="eyebrow">About the prototype</p><h2>One historical field, not two parallel stories.</h2><p>This prototype tests a central proposition: the history of the world and the history of CU are not separate histories. The interface places wider historical events and contemporaneous CU activity around the same temporal spine.</p><p>Juxtaposition does not imply causality. Some CU materials directly respond to a wider event; others simply show what the institution and its communities were doing at the same time.</p><p>Visible historical claims are linked to verified public sources. The funded project would expand the corpus, primary-source integration, accessibility, archival partnerships and historical coverage.</p></div></dialog>
-  <dialog id="sourcesDialog" class="info-dialog"><div class="info-wrap source-list-wrap"><button class="detail-close" data-close-dialog="sourcesDialog" type="button" aria-label="Close sources">×</button><p class="eyebrow">Prototype sources</p><h2>Every visible claim remains attributable.</h2><div id="sourceList" class="source-list"></div></div></dialog>
-  <template id="timelineItemTemplate"><button class="timeline-item" type="button"><span class="connector" aria-hidden="true"></span><span class="object"></span></button></template>
+
+    <dialog id="aboutDialog" class="sheet-dialog">
+      <div class="sheet-surface">
+        <button class="sheet-close" data-close-dialog="aboutDialog" type="button" aria-label="Close about">×</button>
+        <p class="sheet-kicker">About this prototype</p>
+        <h2>The world's history and CU's history are one history.</h2>
+        <p>The timeline places wider historical events and what was happening at CU around one temporal spine. Proximity means shared historical time. It does not imply causality unless the record supports that relationship.</p>
+        <p>This application-facing vertical slice concentrates on three historically consequential clusters in order to demonstrate interaction quality, semantic zoom, source attribution and several kinds of relationship between CU and wider history.</p>
+      </div>
+    </dialog>
+
+    <dialog id="sourcesDialog" class="sheet-dialog">
+      <div class="sheet-surface sources-sheet">
+        <button class="sheet-close" data-close-dialog="sourcesDialog" type="button" aria-label="Close sources">×</button>
+        <p class="sheet-kicker">Sources</p>
+        <h2>Every visible historical claim remains attributable.</h2>
+        <div id="sourceList" class="source-list"></div>
+      </div>
+    </dialog>
+  </div>
+
+  <template id="timelineItemTemplate">
+    <button class="timeline-item" type="button">
+      <span class="connector" aria-hidden="true"></span>
+      <span class="object"></span>
+    </button>
+  </template>
+
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
