@@ -1,0 +1,25 @@
+name: Sync History Through CU historical precision corrections
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-history-through-cu-precision.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/sync_history_through_cu_precision.py
+      - name: Commit corrected mirror
+        run: |
+          rm scripts/sync_history_through_cu_precision.py .github/workflows/sync-history-through-cu-precision.yml
+          git config user.name "Tomas Laurenzo"
+          git config user.email "tomas@laurenzo.net"
+          git add deployments/history-through-cu/app.js deployments/history-through-cu/data.js scripts/sync_history_through_cu_precision.py .github/workflows/sync-history-through-cu-precision.yml
+          git commit -m "Publish History Through CU historical precision corrections"
+          git push
