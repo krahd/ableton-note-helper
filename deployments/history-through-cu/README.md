@@ -12,7 +12,7 @@ Canonical source remains:
 
 ## Current mirror
 
-The mirror contains the **application-facing v2 prototype**, not the earlier broad proof of concept. It is intentionally limited to three hero historical clusters and demonstrates:
+The mirror contains the **application-facing v2 prototype**, synchronised from the canonical release artifact on 13 August 2026. It is intentionally limited to three hero historical clusters and demonstrates:
 
 - a full-screen app shell;
 - a persistent temporal spine;
@@ -24,6 +24,6 @@ The mirror contains the **application-facing v2 prototype**, not the earlier bro
 - a volumetric 3D Freedom Rides bus object;
 - responsive mobile/desktop layouts and reduced-motion support.
 
-The canonical source browser suite passed all six Playwright interaction tests before this mirror was promoted.
+Testing and release evidence are canonical in `krahd/history-through-cu/docs/TESTING-V2.md` and `docs/DEPLOYMENT.md`.
 
 Do not edit the prototype here as primary source. Remove this deployment mirror after `krahd/history-through-cu` has its own working public Pages deployment.
