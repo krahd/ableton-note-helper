@@ -21,6 +21,10 @@
   const zoomLabel = $('#zoomLabel');
   const orientationNote = $('#orientationNote');
 
+  scroll.style.scrollBehavior = 'auto';
+  scroll.style.overflowAnchor = 'none';
+  const webkitEngine = /AppleWebKit/.test(navigator.userAgent) && !/(Chrome|Chromium|Edg)/.test(navigator.userAgent);
+
   const scales = [
     { name:'Wide', pxPerYear:95, minImportance:3, yearStep:5 },
     { name:'Medium', pxPerYear:230, minImportance:2, yearStep:1 },
@@ -139,13 +143,24 @@
     const preserved = currentYear;
     document.body.classList.add('scale-changing');
     scaleIndex = target;
-    topScale.textContent = scales[scaleIndex].name;
-    zoomLabel.textContent = scales[scaleIndex].name;
     setCanvasHeight(); renderYears(); renderItems();
-    scroll.scrollTop = scrollTopForYear(preserved);
-    currentYear = preserved;
-    updateScroll();
-    requestAnimationFrame(() => document.body.classList.remove('scale-changing'));
+    void canvas.offsetHeight;
+    const restoreAnchor = () => {
+      const maxTop = Math.max(0,scroll.scrollHeight-scroll.clientHeight);
+      scroll.scrollTop = clamp(scrollTopForYear(preserved),0,maxTop);
+      currentYear = preserved;
+      updateScroll();
+    };
+    restoreAnchor();
+    requestAnimationFrame(() => {
+      restoreAnchor();
+      requestAnimationFrame(() => {
+        restoreAnchor();
+        topScale.textContent = scales[scaleIndex].name;
+        zoomLabel.textContent = scales[scaleIndex].name;
+        document.body.classList.remove('scale-changing');
+      });
+    });
   }
 
   function updateScroll(){
@@ -215,6 +230,38 @@
     });
   }
 
+  function withViewTransition(perform, after){
+    let performed = false;
+    let finished = false;
+    const guardedPerform = () => {
+      if(performed) return;
+      performed = true;
+      perform();
+    };
+    const guardedFinish = () => {
+      if(finished) return;
+      finished = true;
+      after?.();
+    };
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reliableNativeTransition = typeof document.startViewTransition === 'function' && !webkitEngine;
+    if(!reliableNativeTransition || reduced){
+      guardedPerform();
+      guardedFinish();
+      return;
+    }
+    try {
+      const transition = document.startViewTransition(guardedPerform);
+      requestAnimationFrame(() => { if(!performed) guardedPerform(); });
+      if(transition?.finished?.then) transition.finished.then(guardedFinish,guardedFinish);
+      else requestAnimationFrame(guardedFinish);
+      setTimeout(guardedFinish,800);
+    } catch(error){
+      guardedPerform();
+      guardedFinish();
+    }
+  }
+
   function openStory(item, originNode){
     lastFocusedItem = originNode;
     const rect = originNode.getBoundingClientRect();
@@ -232,13 +279,10 @@
       history.replaceState(null,'',`#${item.id}`);
       requestAnimationFrame(() => closeStoryButton.focus({preventScroll:true}));
     };
-    if(document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-      const transition = document.startViewTransition(perform);
-      transition.finished.finally(() => { originNode.style.viewTransitionName=''; });
-    } else {
-      perform();
-      requestAnimationFrame(() => storyView.classList.add('animate-in'));
-    }
+    withViewTransition(perform, () => { originNode.style.viewTransitionName=''; });
+    requestAnimationFrame(() => {
+      if(storyView.classList.contains('is-open')) storyView.classList.add('animate-in');
+    });
   }
 
   function transitionBetweenStories(item){
@@ -248,8 +292,7 @@
       history.replaceState(null,'',`#${item.id}`);
       requestAnimationFrame(() => storyView.classList.add('story-swapped'));
     };
-    if(document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(perform);
-    else perform();
+    withViewTransition(perform);
   }
 
   function closeStory(){
@@ -265,16 +308,12 @@
       scroll.removeAttribute('inert');
       if(location.hash) history.replaceState(null,'',location.pathname+location.search);
     };
-    if(document.startViewTransition && origin && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-      const transition = document.startViewTransition(perform);
-      transition.finished.finally(() => {
-        origin.style.viewTransitionName='';
-        origin.focus({preventScroll:true});
-      });
-    } else {
-      perform();
+    const finishClose = () => {
+      if(origin) origin.style.viewTransitionName='';
       origin?.focus({preventScroll:true});
-    }
+    };
+    if(origin) withViewTransition(perform,finishClose);
+    else { perform(); finishClose(); }
   }
 
   function yearFromPointer(clientY){
@@ -311,6 +350,10 @@
   };
   scrubberTrack.addEventListener('pointerup',endScrub);
   scrubberTrack.addEventListener('pointercancel',endScrub);
+  scrubberTrack.addEventListener('click', e => {
+    if(e.target.closest('.scrubber-anchor')) return;
+    scrubToPointer(e.clientY);
+  });
   scrubberTrack.addEventListener('keydown', e => {
     const step = e.shiftKey ? 5 : 1;
     if(e.key==='ArrowUp' || e.key==='ArrowLeft') { e.preventDefault(); scrollToYear(currentYear-step); }
