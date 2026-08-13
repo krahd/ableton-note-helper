@@ -42,6 +42,17 @@ jobs:
           cp index.html styles.css enhancements.css app.js music-theory.mjs _site/
           cp sitemap.xml site.webmanifest 187698fd6565dcfce23484648701f559.txt _site/
           cp -R assets _site/
+
+          # Temporary public deployment mirror for the private History Through CU
+          # project. Canonical source remains krahd/history-through-cu/site/.
+          mkdir -p _site/history-through-cu/assets
+          cp deployments/history-through-cu/index.html _site/history-through-cu/
+          cp deployments/history-through-cu/styles.css _site/history-through-cu/
+          cp deployments/history-through-cu/data.js _site/history-through-cu/
+          cp deployments/history-through-cu/app.js _site/history-through-cu/
+          cp deployments/history-through-cu/404.html _site/history-through-cu/
+          cp deployments/history-through-cu/.nojekyll _site/history-through-cu/
+          cp -R deployments/history-through-cu/assets/. _site/history-through-cu/assets/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
