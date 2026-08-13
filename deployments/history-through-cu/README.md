@@ -12,7 +12,7 @@ Canonical source remains:
 
 ## Current mirror
 
-The mirror contains the **application-facing v2 prototype**, synchronised from the canonical release artifact on 13 August 2026. It is intentionally limited to three hero historical clusters and demonstrates:
+The mirror contains the **application-facing v2 prototype**, synchronised from canonical source on 13 August 2026 after the historical/source-precision pass. It is intentionally limited to three hero historical clusters and demonstrates:
 
 - a full-screen app shell;
 - a persistent temporal spine;
@@ -22,7 +22,8 @@ The mirror contains the **application-facing v2 prototype**, synchronised from t
 - organic item-to-scene transitions;
 - full-screen interpretive scenes rather than database-style record pages;
 - a volumetric 3D Freedom Rides bus object;
-- responsive mobile/desktop layouts and reduced-motion support.
+- responsive mobile/desktop layouts and reduced-motion support;
+- explicit display dates/ranges where the historical record does not support a false day-level precision.
 
 Testing and release evidence are canonical in `krahd/history-through-cu/docs/TESTING-V2.md` and `docs/DEPLOYMENT.md`.
 
