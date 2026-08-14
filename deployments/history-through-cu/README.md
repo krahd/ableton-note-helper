@@ -12,19 +12,12 @@ Canonical source remains:
 
 ## Current mirror
 
-The mirror contains the **application-facing v2 prototype**, synchronised from canonical source on 13 August 2026 after the historical/source-precision pass. It is intentionally limited to three hero historical clusters and demonstrates:
+The active mirror is the **v3 application prototype**, promoted from canonical source commit `2857a98c70b276a416d7f30cf331c6693d83c8cf` on 14 August 2026.
 
-- a full-screen app shell;
-- a persistent temporal spine;
-- scroll-responsive emergence and recession;
-- semantic zoom that preserves temporal position;
-- a draggable/clickable/keyboard-operable **You are here** scrubber;
-- organic item-to-scene transitions;
-- full-screen interpretive scenes rather than database-style record pages;
-- a volumetric 3D Freedom Rides bus object;
-- responsive mobile/desktop layouts and reduced-motion support;
-- explicit display dates/ranges where the historical record does not support a false day-level precision.
+The prototype contains four authored historical journeys: **1961, 1969, 1970 and 1974**. Each date has a distinct timeline composition and a full-screen, scroll-driven multimedia trove integrating attributable image, video, audio, typography and source material where rights permit.
 
-Testing and release evidence are canonical in `krahd/history-through-cu/docs/TESTING-V2.md` and `docs/DEPLOYMENT.md`.
+The active v3 application files in this mirror were checked by Git blob SHA against the canonical repository before promotion and match exactly. The canonical release gate completed with **32 passed / 8 deliberate WebKit skips / 0 failures**, followed by rendered desktop and phone visual audits.
+
+The older v2 `app.js`, `data.js` and `styles.css` files remain here only as inert deployment residue/rollback material; the active `index.html` loads the v3 runtime.
 
 Do not edit the prototype here as primary source. Remove this deployment mirror after `krahd/history-through-cu` has its own working public Pages deployment.
