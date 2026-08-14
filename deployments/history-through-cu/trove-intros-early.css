@@ -1,0 +1,38 @@
+/* Authored v3 trove openings: 1961 and 1969. */
+.trove-intro{isolation:isolate}
+.trove-intro::before,.trove-intro::after{display:none!important}
+.authored-intro{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.intro-media-credit{position:absolute;z-index:8;left:18px;bottom:16px;display:flex;flex-direction:column;max-width:55%;font-family:var(--mono);font-size:6px;line-height:1.35;letter-spacing:.04em;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);opacity:.64}
+.intro-media-credit small{font-size:5px}
+
+/* 1961: photographic transit threshold. */
+.trove-intro.theme-ride{background:#d9d3c7;color:#171714;padding-left:52vw;padding-bottom:11vh}
+.authored-intro-ride{background:#d9d3c7}
+.ride-intro-photo{position:absolute;left:-4vw;top:-3vh;width:64vw;height:108vh;margin:0;clip-path:polygon(0 0,94% 0,100% 87%,7% 100%);overflow:hidden;background:#222}
+.ride-intro-photo img{width:100%;height:100%;object-fit:cover;object-position:center 46%;filter:grayscale(1) contrast(1.07);transform:scale(1.03)}
+.ride-intro-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 58%,rgba(0,0,0,.42));pointer-events:none}
+.ride-intro-places{position:absolute;left:4vw;top:7vh;z-index:5;display:flex;flex-direction:column;font-family:var(--mono);font-size:8px;letter-spacing:.15em;color:#fff;text-shadow:0 1px 5px #000}
+.ride-intro-places span{margin-bottom:7px}
+.ride-intro-places span:not(:last-child)::after{content:'  ↓';opacity:.65}
+.ride-intro-year{position:absolute;left:39vw;bottom:7vh;font-family:var(--serif);font-size:27vw;line-height:.58;letter-spacing:-.08em;color:#eee9df;mix-blend-mode:difference}
+.theme-ride>p:first-of-type,.theme-ride h1,.theme-ride .trove-dek,.theme-ride .trove-scroll-cue{position:relative;z-index:3;color:#171714;text-shadow:none}
+.theme-ride h1{width:46vw;font-size:clamp(68px,8.2vw,122px)}
+.theme-ride .trove-dek{margin-left:4vw;width:min(450px,35vw);color:rgba(23,23,20,.72)}
+.theme-ride .trove-scroll-cue{color:rgba(23,23,20,.55)}
+
+/* 1969: both historical media states remain visible and active. */
+.trove-intro.theme-simultaneity{background:#050505;padding:0;justify-content:center;align-items:center;text-align:center}
+.authored-intro-simultaneity{background:#050505}
+.simultaneity-half{position:absolute;top:0;bottom:0;width:58%;overflow:hidden}
+.simultaneity-stonewall{left:0;clip-path:polygon(0 0,100% 0,88% 100%,0 100%)}
+.simultaneity-apollo{right:0;clip-path:polygon(12% 0,100% 0,100% 100%,0 100%)}
+.simultaneity-half figure{position:absolute;inset:0;margin:0}
+.simultaneity-half img,.simultaneity-half video{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.12);opacity:.78}
+.simultaneity-half::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.35),transparent 50%,rgba(0,0,0,.12));pointer-events:none}
+.simultaneity-date{position:absolute;z-index:5;font-family:var(--mono);font-size:8px;letter-spacing:.15em;color:#fff}
+.simultaneity-date.date-a{left:4vw;top:8vh}.simultaneity-date.date-b{right:4vw;bottom:8vh}
+.simultaneity-year{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:31vw;line-height:.55;letter-spacing:-.09em;color:#fff;mix-blend-mode:difference;opacity:.92}
+.theme-simultaneity>p:first-of-type,.theme-simultaneity h1,.theme-simultaneity .trove-dek,.theme-simultaneity .trove-scroll-cue{position:relative;z-index:7;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.55)}
+.theme-simultaneity h1{width:min(900px,76vw);font-size:clamp(70px,9vw,140px)}
+.theme-simultaneity .trove-dek{margin:24px auto 0;width:min(570px,55vw);color:rgba(255,255,255,.78)}
+.theme-simultaneity .trove-scroll-cue{right:4vw}
