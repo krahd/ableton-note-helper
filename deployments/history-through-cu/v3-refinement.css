@@ -1,0 +1,53 @@
+/* Interaction and composition refinements after the first rendered v3 browser pass. */
+
+/* The app bar is visual chrome except for its explicit actions. */
+.app-bar{pointer-events:none}
+.app-actions,.app-actions *{pointer-events:auto}
+
+/* Adjacent historical moments overlap compositionally. Only intentional controls
+   may participate in hit-testing; decorative media/type never blocks another date. */
+.moment-portal>*{pointer-events:none}
+.moment-portal .portal-open{pointer-events:auto}
+.moment-portal .media-credit{pointer-events:auto}
+.moment-portal{z-index:5}
+.moment-portal.is-focused{z-index:38}
+
+/* Each date has its own threshold/entry gesture instead of a shared centred card-like control. */
+.portal-ride .portal-open{
+  left:auto;right:7%;bottom:8%;transform:none;width:min(330px,31vw)
+}
+.portal-ride .portal-open:hover{width:min(385px,36vw);transform:translateX(5px)}
+
+.portal-simultaneity .portal-open{
+  left:6%;bottom:8%;transform:none;width:min(340px,32vw);color:var(--ink)
+}
+.portal-simultaneity .portal-open:hover{width:min(410px,38vw);transform:translateX(5px)}
+
+.portal-network .portal-open{
+  left:7%;bottom:7%;transform:none;width:min(310px,30vw)
+}
+.portal-network .portal-open:hover{width:min(375px,35vw);transform:translateX(5px)}
+
+.portal-counterpoint .portal-open{
+  left:auto;right:8%;bottom:7%;transform:none;width:min(350px,33vw)
+}
+.portal-counterpoint .portal-open:hover{width:min(420px,39vw);transform:translateX(5px)}
+
+/* Entry labels should read as thresholds into the composition, not floating panels. */
+.portal-open{background:transparent;mix-blend-mode:normal}
+.portal-open-label strong{max-width:250px}
+.portal-simultaneity .portal-open,.portal-counterpoint .portal-open{border-top-color:rgba(23,23,20,.62)}
+
+/* Keep persistent navigation above unfocused compositions but below a focused date's authored entry area. */
+.zoom-dock{z-index:33}
+.scrubber{z-index:55}
+.orientation-note{z-index:32}
+
+@media(max-width:820px){
+  .moment-portal.is-focused{z-index:36}
+  .portal-ride .portal-open{right:10%;bottom:7%;width:58vw}
+  .portal-simultaneity .portal-open{left:5%;bottom:7%;width:58vw}
+  .portal-network .portal-open{left:5%;bottom:6%;width:57vw}
+  .portal-counterpoint .portal-open{right:10%;bottom:6%;width:60vw}
+  .portal-ride .portal-open:hover,.portal-simultaneity .portal-open:hover,.portal-network .portal-open:hover,.portal-counterpoint .portal-open:hover{width:60vw;transform:none}
+}
