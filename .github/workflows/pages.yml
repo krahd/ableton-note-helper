@@ -45,14 +45,10 @@ jobs:
 
           # Temporary public deployment mirror for the private History Through CU
           # project. Canonical source remains krahd/history-through-cu/site/.
-          mkdir -p _site/history-through-cu/assets
-          cp deployments/history-through-cu/index.html _site/history-through-cu/
-          cp deployments/history-through-cu/styles.css _site/history-through-cu/
-          cp deployments/history-through-cu/data.js _site/history-through-cu/
-          cp deployments/history-through-cu/app.js _site/history-through-cu/
-          cp deployments/history-through-cu/404.html _site/history-through-cu/
-          cp deployments/history-through-cu/.nojekyll _site/history-through-cu/
-          cp -R deployments/history-through-cu/assets/. _site/history-through-cu/assets/
+          # Copy the mirror as a unit so its active entry point and runtime cannot
+          # diverge when the prototype version changes.
+          mkdir -p _site/history-through-cu
+          cp -R deployments/history-through-cu/. _site/history-through-cu/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
