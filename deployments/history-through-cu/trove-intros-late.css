@@ -1,0 +1,44 @@
+/* Authored v3 trove openings: 1970 and 1974. */
+
+/* 1970: no invented historical image. The movement opens as a social field. */
+.trove-intro.theme-network{background:#e9e5dc;color:#171714;padding:8vh 7vw 9vh;justify-content:flex-end}
+.authored-intro-network{background:#e9e5dc}
+.network-intro-word{position:absolute;white-space:nowrap;color:rgba(23,23,20,.18);line-height:.78;letter-spacing:-.055em}
+.network-intro-word:nth-child(odd){font-family:var(--serif);font-style:italic}
+.network-intro-word:nth-child(even){font-family:var(--sans);font-weight:600}
+.network-intro-word.n1{left:5vw;top:8vh;font:9px var(--mono);letter-spacing:.15em;color:rgba(23,23,20,.55)}
+.network-intro-word.n2{left:8vw;top:24vh;font-size:9vw}
+.network-intro-word.n3{left:19vw;top:42vh;font-size:12vw;color:rgba(23,23,20,.25)}
+.network-intro-word.n4{right:7vw;top:15vh;font-size:4vw}
+.network-intro-word.n5{right:-2vw;top:35vh;font-size:6vw}
+.network-intro-word.n6{left:3vw;bottom:12vh;font-size:6.5vw}
+.network-intro-word.n7{right:13vw;bottom:15vh;font-size:8vw}
+.network-intro-word.n8{left:52vw;top:63vh;font-size:4.2vw}
+.network-intro-word.n9{left:37vw;top:9vh;font-size:3.8vw}
+.theme-network>p:first-of-type,.theme-network h1,.theme-network .trove-dek,.theme-network .trove-scroll-cue{position:relative;z-index:5;color:#171714;text-shadow:none}
+.theme-network h1{margin-left:auto;width:min(760px,58vw);font-size:clamp(72px,9vw,135px);text-align:right}
+.theme-network>p:first-of-type{margin-left:auto;text-align:right}
+.theme-network .trove-dek{margin:25px 0 0 auto;width:min(520px,43vw);color:rgba(23,23,20,.73);text-align:right}
+.theme-network .trove-scroll-cue{color:rgba(23,23,20,.55)}
+
+/* 1974: names and federal image share a year without being paired causally. */
+.trove-intro.theme-counterpoint{background:#e9e5dc;color:#171714;padding:0 5vw 9vh 56vw;justify-content:flex-end}
+.authored-intro-counterpoint{background:#e9e5dc}
+.counterpoint-federal{position:absolute;left:0;top:0;width:51vw;height:100vh;overflow:hidden;clip-path:polygon(0 0,93% 0,100% 100%,0 100%)}
+.counterpoint-federal figure{position:absolute;inset:0;margin:0}
+.counterpoint-federal img{width:100%;height:100%;object-fit:cover;object-position:center 28%;filter:grayscale(1) contrast(1.08)}
+.counterpoint-federal::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 68%,rgba(0,0,0,.42));pointer-events:none}
+.counterpoint-names{position:absolute;right:4vw;top:12vh;width:47vw;display:flex;flex-direction:column;align-items:flex-start}
+.counterpoint-names span{font-family:var(--serif);font-size:clamp(30px,4.6vw,70px);line-height:.76;letter-spacing:-.045em;color:#171714;transform:translateX(calc(var(--i)*1.1vw))}
+.counterpoint-names span:nth-child(even){font-style:italic}
+.counterpoint-month{position:absolute;z-index:5;font-family:var(--mono);font-size:8px;letter-spacing:.15em}
+.counterpoint-month.month-a{right:5vw;top:6vh}.counterpoint-month.month-b{left:4vw;bottom:5vh;color:#fff}
+.counterpoint-year{position:absolute;left:43vw;top:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:27vw;line-height:.55;letter-spacing:-.09em;color:#f2eee5;mix-blend-mode:difference}
+.theme-counterpoint>p:first-of-type,.theme-counterpoint h1,.theme-counterpoint .trove-dek,.theme-counterpoint .trove-scroll-cue{position:relative;z-index:7;color:#171714;text-shadow:none}
+.theme-counterpoint h1{width:39vw;font-size:clamp(58px,7vw,105px)}
+.theme-counterpoint .trove-dek{margin:22px 0 0;width:34vw;color:rgba(23,23,20,.72)}
+.theme-counterpoint .trove-scroll-cue{color:rgba(23,23,20,.55)}
+
+/* The publication chapter should not let archival labels overpower its prose. */
+.publication-fragments span{opacity:calc(.035 + var(--chapter-focus)*.10)!important}
+.kind-publication-field .chapter-copy{z-index:12}
