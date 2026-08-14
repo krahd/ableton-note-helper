@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#eee9df" />
-  <meta name="description" content="History Through CU — a scroll-responsive prototype placing wider history and what was happening at CU Boulder in one historical field." />
+  <meta name="theme-color" content="#e9e5dc" />
+  <meta name="description" content="History Through CU — four multimedia historical journeys placing wider history and CU Boulder in one temporal field." />
   <title>History Through CU</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-v3.css" />
 </head>
 <body>
   <div class="app-shell" id="appShell">
@@ -16,7 +16,7 @@
     <header class="app-bar">
       <div class="app-brand">
         <strong>History Through CU</strong>
-        <span class="app-range">1961—1974 · prototype</span>
+        <span class="app-range">1961—1974 · four journeys</span>
       </div>
       <div class="app-status" aria-live="polite">
         <span id="topYear">1969</span>
@@ -30,35 +30,28 @@
     </header>
 
     <main class="timeline-app" aria-label="Interactive historical timeline">
-      <div class="timeline-scroll" id="timelineScroll" tabindex="0" aria-label="Scroll through the timeline">
+      <div class="timeline-scroll" id="timelineScroll" tabindex="0" aria-label="Scroll through four historical moments">
         <div class="timeline-canvas" id="timelineCanvas">
           <div class="timeline-spine" aria-hidden="true"></div>
           <div class="year-layer" id="yearLayer" aria-hidden="true"></div>
-          <div class="item-layer" id="itemLayer"></div>
+          <div class="portal-layer" id="portalLayer"></div>
         </div>
       </div>
 
       <section class="orientation-note" id="orientationNote" aria-live="polite">
         <span class="orientation-title">One history</span>
-        <span>Scroll through time. Drag <em>You are here</em> to travel.</span>
+        <span>Scroll through time. Open a date to travel into it.</span>
       </section>
 
       <div class="zoom-dock" role="group" aria-label="Timeline scale">
         <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
-        <div class="zoom-readout">
-          <span>Scale</span>
-          <strong id="zoomLabel">Medium</strong>
-        </div>
+        <div class="zoom-readout"><span>Scale</span><strong id="zoomLabel">Medium</strong></div>
         <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
       </div>
 
       <aside class="scrubber" aria-label="You are here timeline navigator">
-        <div class="scrubber-copy">
-          <span>You are here</span>
-          <strong id="scrubberYear">1969</strong>
-        </div>
-        <div class="scrubber-track" id="scrubberTrack" role="slider" tabindex="0"
-             aria-label="Timeline position" aria-valuemin="1960" aria-valuemax="1975" aria-valuenow="1969">
+        <div class="scrubber-copy"><span>You are here</span><strong id="scrubberYear">1969</strong></div>
+        <div class="scrubber-track" id="scrubberTrack" role="slider" tabindex="0" aria-label="Timeline position" aria-valuemin="1960" aria-valuemax="1975" aria-valuenow="1969">
           <div class="scrubber-line" aria-hidden="true"></div>
           <div class="scrubber-progress" id="scrubberProgress" aria-hidden="true"></div>
           <div class="scrubber-anchors" id="scrubberAnchors"></div>
@@ -68,43 +61,38 @@
       </aside>
     </main>
 
-    <section class="story-view" id="storyView" aria-hidden="true" aria-label="Historical detail">
-      <div class="story-surface" id="storySurface">
-        <button class="story-close" id="closeStory" type="button" aria-label="Back to timeline">
-          <span aria-hidden="true">←</span><span>Timeline</span>
-        </button>
-        <div class="story-content" id="storyContent"></div>
+    <section class="trove-view" id="troveView" aria-hidden="true" aria-label="Historical journey">
+      <div class="trove-topbar">
+        <button class="trove-close" id="closeTrove" type="button" aria-label="Return to timeline"><b aria-hidden="true">←</b><span>Timeline</span></button>
+        <span class="trove-index" id="troveIndex" aria-live="polite">01 / 05</span>
+        <span aria-hidden="true"></span>
+        <div class="trove-progress-track" aria-hidden="true"><div class="trove-progress" id="troveProgress"></div></div>
       </div>
+      <div class="trove-scroll" id="troveScroll" tabindex="0"><div class="trove-content" id="troveContent"></div></div>
     </section>
 
     <dialog id="aboutDialog" class="sheet-dialog">
       <div class="sheet-surface">
         <button class="sheet-close" data-close-dialog="aboutDialog" type="button" aria-label="Close about">×</button>
-        <p class="sheet-kicker">About this prototype</p>
-        <h2>The world's history and CU's history are one history.</h2>
-        <p>The timeline places wider historical events and what was happening at CU around one temporal spine. Proximity means shared historical time. It does not imply causality unless the record supports that relationship.</p>
-        <p>This application-facing vertical slice concentrates on three historically consequential clusters in order to demonstrate interaction quality, semantic zoom, source attribution and several kinds of relationship between CU and wider history.</p>
+        <p class="sheet-kicker">History Through CU</p>
+        <h2>The world’s history and CU’s history are one history.</h2>
+        <p>Four dates demonstrate four different historical relations. The timeline is an entry point; opening a date enters a guided multimedia journey built from attributable material.</p>
+        <p>The project keeps sources visible and preserves the distinction between documented relation and temporal proximity.</p>
       </div>
     </dialog>
 
     <dialog id="sourcesDialog" class="sheet-dialog">
       <div class="sheet-surface sources-sheet">
         <button class="sheet-close" data-close-dialog="sourcesDialog" type="button" aria-label="Close sources">×</button>
-        <p class="sheet-kicker">Sources</p>
-        <h2>Every visible historical claim remains attributable.</h2>
+        <p class="sheet-kicker">Sources and media rights</p>
+        <h2>Media and claims remain attributable.</h2>
+        <p>Reusable media is integrated directly. Other archival material remains source-linked when reuse rights are uncertain or item-specific.</p>
         <div id="sourceList" class="source-list"></div>
       </div>
     </dialog>
   </div>
 
-  <template id="timelineItemTemplate">
-    <button class="timeline-item" type="button">
-      <span class="connector" aria-hidden="true"></span>
-      <span class="object"></span>
-    </button>
-  </template>
-
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="data-v3.js"></script>
+  <script src="app-v3.js"></script>
 </body>
 </html>
