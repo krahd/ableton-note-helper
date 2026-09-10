@@ -3,7 +3,7 @@
 [![Test and deploy GitHub Pages](https://github.com/krahd/ableton-note-helper/actions/workflows/pages.yml/badge.svg)](https://github.com/krahd/ableton-note-helper/actions/workflows/pages.yml)
 [![MIT licence](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
-A free, interactive reference for learning scales, modes, chords, arpeggios and exact voicings on Ableton Note and Push pad layouts. It runs entirely in the browser: no account, installation, analytics or tracking.
+A free, interactive reference for learning scales, modes, chords, arpeggios, jazz phrases and exact voicings on Ableton Note and Push pad layouts. It runs entirely in the browser: no account, installation, analytics or tracking.
 
 Created by [Tomás Laurenzo](https://laurenzo.net).
 
@@ -18,7 +18,8 @@ Created by [Tomás Laurenzo](https://laurenzo.net).
   - **iPhone** — 5 columns × 5 rows, C2–C4, matching the compact Note grid.
   - **Ableton Push** — 8 columns × 8 rows, bottom-left C1, chromatic fourths.
 - Multiple simultaneous charts with independently selectable roots and patterns.
-- Scales, major-scale modes, melodic-minor modes, harmonic-minor modes, chords, arpeggios and exact voicings.
+- Scales, major-scale modes, melodic-minor modes, harmonic-minor modes, chords, arpeggios, jazz phrases and exact voicings.
+- Ordered bebop vocabulary, enclosures, chromatic approaches, ii–V–I lines and essential jazz cells, with phrase order numbered directly on the pads.
 - Blue roots, orange pattern tones, black unused naturals and grey unused accidentals.
 - Exact voicings illuminate one physical pad per note instead of every duplicate pitch occurrence.
 - Tap pads to identify chord symbols, alternative interpretations and inversions.
@@ -30,7 +31,7 @@ Created by [Tomás Laurenzo](https://laurenzo.net).
 
 1. Choose **iPad**, **iPhone** or **Push**.
 2. Select a global root and keep **Link chart roots** enabled to compare patterns in one key.
-3. Choose a scale, chord, arpeggio or voicing in each chart.
+3. Choose a scale, chord, arpeggio, jazz phrase or voicing in each chart. Jazz phrases show an ordered pitch contour; repeated visits to a pad display every applicable step number. Rhythm and articulation are deliberately left open.
 4. Tap physical pads to assemble a chord. The analyser preserves octave and bass-note information so it can report inversions.
 5. Tap a selected-note chip to remove one note, or use the adjacent × to clear all selected notes.
 

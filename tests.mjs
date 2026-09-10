@@ -10,6 +10,7 @@ import {
   noteName,
   padMidi,
   patternPitchClasses,
+  resolveSequence,
   resolveVoicing,
 } from './music-theory.mjs';
 
@@ -78,10 +79,11 @@ for (const entry of PATTERNS) {
   assert.ok(entry.formula.length > 0);
   assert.ok(entry.intervals.length > 0);
   assert.ok(entry.intervals.every(Number.isFinite));
-  if (!entry.voicing) {
+  if (!entry.voicing && !entry.sequence) {
     assert.ok(entry.intervals.every((interval) => interval >= 0 && interval < 12));
     assert.equal(new Set(entry.intervals).size, entry.intervals.length);
   }
+  if (entry.sequence) assert.ok(entry.intervals.every(Number.isInteger));
 }
 
 assert.deepEqual(
@@ -116,6 +118,39 @@ for (const layout of Object.values(LAYOUTS)) {
     }
   }
 }
+
+const phrases = PATTERNS.filter((entry) => entry.sequence);
+assert.equal(phrases.length, 12, 'The initial jazz library must contain twelve phrases');
+assert.ok(phrases.some((entry) => entry.id === 'lick-bebop-dominant-descent'));
+assert.ok(phrases.some((entry) => entry.id === 'lick-major-ii-v-i'));
+assert.ok(phrases.some((entry) => entry.id === 'lick-minor-ii-v-i'));
+assert.ok(phrases.some((entry) => entry.id === 'lick-the-lick'));
+
+for (const layout of Object.values(LAYOUTS)) {
+  const validPositions = new Set(layoutCells(layout.id).map((cell) => cell.key));
+  for (let root = 0; root < 12; root += 1) {
+    for (const entry of phrases) {
+      const result = resolveSequence(layout.id, root, entry.intervals);
+      assert.equal(result.positions.length, result.visibleSteps.length);
+      assert.ok(result.positions.every((position) => validPositions.has(position.key)));
+      assert.equal(
+        [...result.stepsByPosition.values()].flat().length,
+        result.visibleSteps.length,
+        `${entry.name} must retain every visible step`,
+      );
+      if (result.complete) assert.equal(result.positions.length, entry.intervals.length);
+    }
+  }
+}
+
+const repeatedPhrase = resolveSequence('ipad', 0, [0, 2, 0]);
+assert.equal(repeatedPhrase.complete, true);
+assert.equal(repeatedPhrase.positions.length, 3);
+assert.ok([...repeatedPhrase.stepsByPosition.values()].some((steps) => steps.length === 2));
+
+const descendingPhrase = resolveSequence('push', 0, [12, 11, 10, 7, 4, 0]);
+assert.equal(descendingPhrase.complete, true);
+assert.deepEqual(descendingPhrase.targetNotes, [48, 47, 46, 43, 40, 36]);
 
 const ipadDrop2 = resolveVoicing('ipad', 0, [0, 7, 11, 16]);
 assert.equal(ipadDrop2.complete, true);
@@ -197,6 +232,7 @@ function formulaIntervals(entry) {
 }
 
 for (const entry of PATTERNS) {
+  if (entry.sequence) continue;
   assert.deepEqual(
     formulaIntervals(entry),
     [...entry.intervals],

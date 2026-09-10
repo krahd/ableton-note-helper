@@ -45,7 +45,19 @@ export const LAYOUTS = Object.freeze({
 });
 
 const pattern = (id, group, family, name, formula, intervals, voicing = false) =>
-  Object.freeze({ id, group, family, name, formula, intervals: Object.freeze(intervals), voicing });
+  Object.freeze({ id, group, family, name, formula, intervals: Object.freeze(intervals), voicing, sequence: false });
+
+const phrase = (id, group, family, name, formula, intervals) =>
+  Object.freeze({
+    id,
+    group,
+    family,
+    name,
+    formula,
+    intervals: Object.freeze(intervals),
+    voicing: false,
+    sequence: true,
+  });
 
 export const PATTERNS = Object.freeze([
   pattern('major', 'Scales', 'Scale', 'Major (Ionian)', '1 2 3 4 5 6 7', [0, 2, 4, 5, 7, 9, 11]),
@@ -154,6 +166,19 @@ export const PATTERNS = Object.freeze([
   pattern('voicing-rootless-major', 'Voicings', 'Voicing', 'Major 13 · rootless', '3–6–7–9', [4, 9, 11, 14], true),
   pattern('voicing-rootless-dominant', 'Voicings', 'Voicing', 'Dominant 13 · rootless', '3–♭7–9–13', [4, 10, 14, 21], true),
   pattern('voicing-rootless-minor', 'Voicings', 'Voicing', 'Minor 11 · rootless', '♭3–♭7–9–11', [3, 10, 14, 17], true),
+
+  phrase('lick-bebop-dominant-descent', 'Jazz phrases · bebop', 'Ordered phrase', 'Dominant bebop descent', '8–7–♭7–6–5–♯4–4–3–2–♭2–1', [12, 11, 10, 9, 7, 6, 5, 4, 2, 1, 0]),
+  phrase('lick-bebop-major-ascent', 'Jazz phrases · bebop', 'Ordered phrase', 'Major bebop ascent', '1–2–3–4–5–♯5–6–7–8', [0, 2, 4, 5, 7, 8, 9, 11, 12]),
+  phrase('lick-enclosure-third', 'Jazz phrases · bebop', 'Ordered phrase', 'Enclosure of the 3rd', '4–♭3–3', [5, 3, 4]),
+  phrase('lick-enclosure-root', 'Jazz phrases · bebop', 'Ordered phrase', 'Enclosure of the root', '9–7–8', [14, 11, 12]),
+  phrase('lick-chromatic-third', 'Jazz phrases · bebop', 'Ordered phrase', 'Chromatic approach to the 3rd', '♭3–3', [3, 4]),
+  phrase('lick-the-lick', 'Jazz phrases · vocabulary', 'Ordered phrase', 'The Lick · minor', '1–2–♭3–4–2–7–1', [0, 2, 3, 5, 2, -1, 0]),
+  phrase('lick-1235', 'Jazz phrases · vocabulary', 'Ordered phrase', '1–2–3–5 cell', '1–2–3–5', [0, 2, 4, 7]),
+  phrase('lick-3579', 'Jazz phrases · vocabulary', 'Ordered phrase', '3–5–7–9 cell', '3–5–7–9', [4, 7, 11, 14]),
+  phrase('lick-dominant-diminished', 'Jazz phrases · vocabulary', 'Ordered phrase', 'Dominant diminished ascent', '1–♭2–♯2–3–♯4–5–6–♭7–8', [0, 1, 3, 4, 6, 7, 9, 10, 12]),
+  phrase('lick-altered-resolution', 'Jazz phrases · vocabulary', 'Ordered phrase', 'Altered dominant resolution', '♭7–♯5–♭5–3–♭9–1', [10, 8, 6, 4, 1, 0]),
+  phrase('lick-major-ii-v-i', 'Jazz phrases · progressions', 'Ordered phrase', 'Major ii–V–I line', 'ii: 2–4–6–8 · V: 7–♭6–5–4 · I: 3–2–1', [2, 5, 9, 12, 11, 8, 7, 5, 4, 2, 0]),
+  phrase('lick-minor-ii-v-i', 'Jazz phrases · progressions', 'Ordered phrase', 'Minor iiø–V–i line', 'iiø: 2–4–♭6–8 · V: 7–♭6–5–4 · i: ♭3–2–1', [2, 5, 8, 12, 11, 8, 7, 5, 3, 2, 0]),
 ]);
 
 export const PATTERN_GROUPS = Object.freeze([...new Set(PATTERNS.map((entry) => entry.group))]);
@@ -377,5 +402,98 @@ export function resolveVoicing(layoutId, rootPitchClass, intervals) {
     ...chosen,
     positions,
     positionKeys: new Set(positions.map((position) => position.key)),
+  };
+}
+
+function bestSequencePositions(positionLists) {
+  if (!positionLists.length) return { positions: [], movement: 0 };
+
+  let paths = positionLists[0].map((position) => ({
+    position,
+    positions: [position],
+    cost: position.rowFromBottom * 0.02 + position.column * 0.01,
+  }));
+
+  for (const choices of positionLists.slice(1)) {
+    const nextPaths = [];
+    for (const position of choices) {
+      const candidates = paths.map((path) => ({
+        position,
+        positions: [...path.positions, position],
+        cost: path.cost
+          + Math.abs(path.position.rowFromBottom - position.rowFromBottom)
+          + Math.abs(path.position.column - position.column)
+          + position.rowFromBottom * 0.02
+          + position.column * 0.01,
+      }));
+      candidates.sort((left, right) => left.cost - right.cost);
+      nextPaths.push(candidates[0]);
+    }
+    paths = nextPaths;
+  }
+
+  paths.sort((left, right) => left.cost - right.cost);
+  return { positions: paths[0].positions, movement: paths[0].cost };
+}
+
+export function resolveSequence(layoutId, rootPitchClass, intervals) {
+  const cells = layoutCells(layoutId);
+  const positionsByMidi = new Map();
+  for (const cell of cells) {
+    const positions = positionsByMidi.get(cell.midi) ?? [];
+    positions.push(cell);
+    positionsByMidi.set(cell.midi, positions);
+  }
+
+  const rootCandidates = [...positionsByMidi.keys()]
+    .filter((midi) => mod(midi) === mod(rootPitchClass))
+    .sort((a, b) => a - b);
+
+  const candidates = rootCandidates.map((rootMidi) => {
+    const targetNotes = intervals.map((interval) => rootMidi + interval);
+    const visibleSteps = targetNotes
+      .map((midi, index) => ({ midi, step: index + 1 }))
+      .filter(({ midi }) => positionsByMidi.has(midi));
+    const path = bestSequencePositions(visibleSteps.map(({ midi }) => positionsByMidi.get(midi)));
+    return {
+      rootMidi,
+      targetNotes,
+      visibleSteps,
+      missingSteps: targetNotes
+        .map((midi, index) => ({ midi, step: index + 1 }))
+        .filter(({ midi }) => !positionsByMidi.has(midi)),
+      complete: visibleSteps.length === targetNotes.length,
+      positions: path.positions,
+      movement: path.movement,
+    };
+  });
+
+  candidates.sort((left, right) => {
+    if (left.complete !== right.complete) return left.complete ? -1 : 1;
+    if (left.visibleSteps.length !== right.visibleSteps.length) return right.visibleSteps.length - left.visibleSteps.length;
+    if (left.movement !== right.movement) return left.movement - right.movement;
+    return left.rootMidi - right.rootMidi;
+  });
+
+  const chosen = candidates[0] ?? {
+    rootMidi: null,
+    targetNotes: [],
+    visibleSteps: [],
+    missingSteps: [],
+    complete: false,
+    positions: [],
+    movement: 0,
+  };
+  const stepsByPosition = new Map();
+  chosen.positions.forEach((position, index) => {
+    const steps = stepsByPosition.get(position.key) ?? [];
+    steps.push(chosen.visibleSteps[index].step);
+    stepsByPosition.set(position.key, steps);
+  });
+
+  return {
+    ...chosen,
+    positionKeys: new Set(chosen.positions.map((position) => position.key)),
+    stepsByPosition,
   };
 }

@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#0b0d10">
   <meta name="application-name" content="Ableton Note Helper">
   <meta name="author" content="Tomás Laurenzo">
-  <meta name="description" content="A free interactive reference for scales, modes, chords, arpeggios and exact voicings on Ableton Note and Push pad layouts.">
+  <meta name="description" content="A free interactive reference for scales, modes, chords, arpeggios, jazz phrases and exact voicings on Ableton Note and Push pad layouts.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Ableton Note Helper">
   <meta property="og:title" content="Ableton Note Helper">
-  <meta property="og:description" content="Explore scales, chords and exact voicings on iPad, iPhone and Ableton Push pad grids.">
+  <meta property="og:description" content="Explore scales, chords, jazz phrases and exact voicings on iPad, iPhone and Ableton Push pad grids.">
   <meta property="og:url" content="https://krahd.github.io/ableton-note-helper/">
   <meta property="og:image" content="https://krahd.github.io/ableton-note-helper/assets/social-preview.png">
   <meta property="og:image:width" content="1280">
@@ -18,7 +18,7 @@
   <meta property="og:image:alt" content="Ableton Note Helper pad-grid preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Ableton Note Helper">
-  <meta name="twitter:description" content="Interactive scales, chords, arpeggios and voicings for Ableton Note and Push.">
+  <meta name="twitter:description" content="Interactive scales, chords, jazz phrases, arpeggios and voicings for Ableton Note and Push.">
   <meta name="twitter:image" content="https://krahd.github.io/ableton-note-helper/assets/social-preview.png">
   <meta name="twitter:image:alt" content="Ableton Note Helper pad-grid preview">
   <link rel="canonical" href="https://krahd.github.io/ableton-note-helper/">
@@ -35,7 +35,7 @@
     "name": "Ableton Note Helper",
     "alternateName": "Ableton Note and Push Scale, Chord and Voicing Helper",
     "url": "https://krahd.github.io/ableton-note-helper/",
-    "description": "A free interactive reference for exploring scales, modes, chords, arpeggios and exact voicings on Ableton Note and Ableton Push pad layouts.",
+    "description": "A free interactive reference for exploring scales, modes, chords, arpeggios, jazz phrases and exact voicings on Ableton Note and Ableton Push pad layouts.",
     "applicationCategory": "MusicApplication",
     "applicationSubCategory": "Music theory and instrument learning",
     "operatingSystem": "Any operating system with a modern web browser",
@@ -54,6 +54,8 @@
       "modes",
       "chords",
       "arpeggios",
+      "bebop",
+      "jazz phrases",
       "voicings",
       "pad grid"
     ],
@@ -70,7 +72,7 @@
     <div>
       <p id="layout-summary" class="eyebrow">iPad · 13 × 5</p>
       <h1>Ableton Note Helper</h1>
-      <p class="lede">Explore scales, modes, chords, arpeggios and exact voicings on Ableton-style pad grids.</p>
+      <p class="lede">Explore scales, modes, chords, arpeggios, jazz phrases and exact voicings on Ableton-style pad grids.</p>
     </div>
     <div class="header-actions">
       <button id="add-chart" class="primary" type="button">Add chart</button>
@@ -100,6 +102,7 @@
     <span><i class="swatch natural"></i> Other natural</span>
     <span><i class="swatch accidental"></i> Other accidental</span>
     <span><i class="swatch selected"></i> Tapped note</span>
+    <span>Numbered pads show phrase order</span>
   </section>
 
   <main>
@@ -134,7 +137,7 @@
       </header>
       <div class="chart-controls">
         <label>Root<select class="chart-root" aria-label="Chart root note"></select></label>
-        <label>Pattern<select class="chart-pattern" aria-label="Scale, chord, arpeggio or voicing"></select></label>
+        <label>Pattern<select class="chart-pattern" aria-label="Scale, chord, arpeggio, jazz phrase or voicing"></select></label>
       </div>
       <p class="voicing-warning" hidden></p>
       <div class="grid-wrap">

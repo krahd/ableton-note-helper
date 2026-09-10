@@ -318,6 +318,18 @@ main { padding-bottom: 28px; }
   opacity: 0.68;
 }
 
+.pad .sequence-steps {
+  position: absolute;
+  left: 3px;
+  top: 2px;
+  max-width: calc(100% - 6px);
+  overflow: hidden;
+  font-size: clamp(0.48rem, 0.9vw, 0.62rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.82;
+}
+
 .pad-grid[data-layout="iphone"] .pad { font-size: 1rem; }
 
 footer {

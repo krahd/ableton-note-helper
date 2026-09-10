@@ -12,6 +12,7 @@ import {
   noteName,
   patternById,
   patternPitchClasses,
+  resolveSequence,
   resolveVoicing,
 } from './music-theory.mjs';
 
@@ -155,9 +156,11 @@ function configureGridStyle(grid, layout) {
   grid.dataset.layout = layout.id;
 }
 
-function createPad(cell, chart, entry, voicing, pitchClasses) {
+function createPad(cell, chart, entry, exactPattern, pitchClasses) {
   const pitchClass = mod(cell.midi);
-  const isMember = entry.voicing ? voicing.positionKeys.has(cell.key) : pitchClasses.has(pitchClass);
+  const isMember = entry.voicing || entry.sequence
+    ? exactPattern.positionKeys.has(cell.key)
+    : pitchClasses.has(pitchClass);
   const isRoot = isMember && pitchClass === chart.root;
   const isSelected = state.selectedMidi.has(cell.midi);
 
@@ -174,9 +177,10 @@ function createPad(cell, chart, entry, voicing, pitchClasses) {
   button.setAttribute('aria-rowindex', String(cell.visualRow + 1));
   button.setAttribute('aria-colindex', String(cell.column + 1));
   button.setAttribute('aria-pressed', String(isSelected));
+  const sequenceSteps = entry.sequence ? exactPattern.stepsByPosition.get(cell.key) ?? [] : [];
   button.setAttribute(
     'aria-label',
-    `${midiNoteName(cell.midi, state.spelling)}${isMember ? ', in pattern' : ''}${isSelected ? ', selected' : ''}`,
+    `${midiNoteName(cell.midi, state.spelling)}${sequenceSteps.length ? `, phrase ${sequenceSteps.length === 1 ? 'step' : 'steps'} ${sequenceSteps.join(', ')}` : isMember ? ', in pattern' : ''}${isSelected ? ', selected' : ''}`,
   );
 
   const name = document.createElement('span');
@@ -186,6 +190,12 @@ function createPad(cell, chart, entry, voicing, pitchClasses) {
   octave.className = 'octave';
   octave.textContent = String(Math.floor(cell.midi / 12) - 1);
   button.append(name, octave);
+  if (sequenceSteps.length) {
+    const order = document.createElement('span');
+    order.className = 'sequence-steps';
+    order.textContent = sequenceSteps.join('·');
+    button.appendChild(order);
+  }
 
   button.addEventListener('click', () => {
     if (state.selectedMidi.has(cell.midi)) state.selectedMidi.delete(cell.midi);
@@ -200,16 +210,26 @@ function drawGrid(grid, chart, entry, warning) {
   const layout = getLayout(state.layout);
   configureGridStyle(grid, layout);
   const pitchClasses = patternPitchClasses(chart.root, entry.intervals);
-  const voicing = entry.voicing ? resolveVoicing(state.layout, chart.root, entry.intervals) : null;
+  const exactPattern = entry.sequence
+    ? resolveSequence(state.layout, chart.root, entry.intervals)
+    : entry.voicing
+      ? resolveVoicing(state.layout, chart.root, entry.intervals)
+      : null;
 
   for (const cell of layoutCells(state.layout)) {
-    grid.appendChild(createPad(cell, chart, entry, voicing, pitchClasses));
+    grid.appendChild(createPad(cell, chart, entry, exactPattern, pitchClasses));
   }
 
-  if (entry.voicing && !voicing.complete) {
-    const missing = voicing.missingNotes.map((midi) => midiNoteName(midi, state.spelling)).join(', ');
+  if (entry.voicing && !exactPattern.complete) {
+    const missing = exactPattern.missingNotes.map((midi) => midiNoteName(midi, state.spelling)).join(', ');
     warning.hidden = false;
     warning.textContent = `This exact voicing exceeds the ${layout.name} range; visible notes are shown${missing ? `. Missing: ${missing}.` : '.'}`;
+  } else if (entry.sequence && !exactPattern.complete) {
+    const missing = exactPattern.missingSteps
+      .map(({ midi, step }) => `${step}: ${midiNoteName(midi, state.spelling)}`)
+      .join(', ');
+    warning.hidden = false;
+    warning.textContent = `This phrase exceeds the ${layout.name} range; visible steps are shown${missing ? `. Missing: ${missing}.` : '.'}`;
   } else {
     warning.hidden = true;
     warning.textContent = '';
